@@ -1,46 +1,57 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext.jsx";
 
 // Pages
-import Home from "./pages/Home/Home";
-import Profiles from "./pages/Profiles/ProfilePage";
-import ProfileEdit from "./pages/ProfileEdit/ProfileEdit";
-import PartnerPreferencePage from "./pages/PartnerPreferencePage/PartnerPreferencePage";
-import SearchPage from "./pages/Search/SearchPage";
-import ChatPage from "./pages/Chat/ChatPage";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import AdminPanel from "./pages/Admin/AdminPanel";
+import Home from "./pages/Home/Home.jsx";
+import ProfilePage from "./pages/Profiles/ProfilePage.jsx";
+import ProfileEdit from "./pages/ProfileEdit/ProfileEdit.jsx";
+import PartnerPreferencePage from "./pages/PartnerPreferencePage/PartnerPreferencePage.jsx";
+import SearchPage from "./pages/Search/SearchPage.jsx";
+import ChatPage from "./pages/Chat/ChatPage.jsx";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import AdminPanel from "./pages/Admin/AdminPanel.jsx";
 
 // Layout
-import Navbar from "./components/layout/Navbar";
+import Layout from "./components/layout/Layout.jsx";
 
-// Protected Route Component
+// Protected Route wrapper
 function ProtectedRoute({ children }) {
-  const { isLoggedIn } = useAuth();
-  return isLoggedIn ? children : <Navigate to="/" />;
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/" />;
+}
+
+// Wrapper for routes that require authentication
+function ProtectedLayout() {
+  return (
+    <ProtectedRoute>
+      <Outlet />
+    </ProtectedRoute>
+  );
 }
 
 export default function App() {
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
-        <div className="min-h-[calc(100vh-80px)] bg-gray-50">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profiles" element={<ProtectedRoute><Profiles /></ProtectedRoute>} />
-            <Route path="/profile/:id" element={<ProtectedRoute><Profiles /></ProtectedRoute>} />
-            <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
-            <Route path="/partner-preference" element={<ProtectedRoute><PartnerPreferencePage /></ProtectedRoute>} />
-            <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
-            <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
-            {/* Catch all */}
-            <Route path="*" element={<h1 className="text-center mt-10 text-red-500">404 - Page Not Found</h1>} />
-          </Routes>
-        </div>
+        <Routes>
+          {/* Public Home */}
+          <Route path="/" element={<Layout><Home /></Layout>} />
+
+          {/* Protected routes */}
+          <Route element={<Layout><ProtectedLayout /></Layout>}>
+            <Route path="/profiles" element={<ProfilePage />} />
+            <Route path="/profile/edit" element={<ProfileEdit />} />
+            <Route path="/partner-preference" element={<PartnerPreferencePage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin" element={<AdminPanel />} />
+          </Route>
+
+          {/* Catch all 404 */}
+          <Route path="*" element={<Layout><h1 className="text-center mt-10 text-danger">404 - Page Not Found</h1></Layout>} />
+        </Routes>
       </Router>
     </AuthProvider>
   );

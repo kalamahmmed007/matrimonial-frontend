@@ -1,34 +1,47 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-4 mt-auto">
-      <div className="container text-center">
+    <footer className="bg-light text-dark pt-5 pb-3 mt-5">
+      <div className="container">
         <div className="row">
-          <div className="col-md-6 mb-3 mb-md-0">
-            <h5>Matrimonial.com.bd</h5>
-            <p className="mb-0">Connecting hearts since 2025</p>
+
+          {/* About / Logo */}
+          <div className="col-md-4 mb-4">
+            <h5 className="fw-bold text-danger">Matrimonial.com</h5>
+            <p>
+              Helping families find perfect matches with love, trust, and care. Join thousands of happy couples today!
+            </p>
           </div>
-          <div className="col-md-6">
-            <ul className="list-inline mb-0">
-              <li className="list-inline-item mx-2">
-                <a href="/" className="text-light text-decoration-none">Home</a>
-              </li>
-              <li className="list-inline-item mx-2">
-                <a href="/search" className="text-light text-decoration-none">Search</a>
-              </li>
-              <li className="list-inline-item mx-2">
-                <a href="/dashboard" className="text-light text-decoration-none">Dashboard</a>
-              </li>
-              <li className="list-inline-item mx-2">
-                <a href="/admin" className="text-light text-decoration-none">Admin</a>
-              </li>
+
+          {/* Quick Links */}
+          <div className="col-md-4 mb-4">
+            <h5 className="fw-bold">Quick Links</h5>
+            <ul className="list-unstyled">
+              <li><a href="/" className="text-dark text-decoration-none">Home</a></li>
+              <li><a href="/about" className="text-dark text-decoration-none">About</a></li>
+              <li><a href="/services" className="text-dark text-decoration-none">Services</a></li>
+              <li><a href="/contact" className="text-dark text-decoration-none">Contact</a></li>
             </ul>
           </div>
+
+          {/* Social Media */}
+          <div className="col-md-4 mb-4">
+            <h5 className="fw-bold">Follow Us</h5>
+            <div className="d-flex gap-3">
+              <a href="#" className="text-dark fs-5"><i className="bi bi-facebook"></i></a>
+              <a href="#" className="text-dark fs-5"><i className="bi bi-twitter"></i></a>
+              <a href="#" className="text-dark fs-5"><i className="bi bi-instagram"></i></a>
+              <a href="#" className="text-dark fs-5"><i className="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
         </div>
-        <div className="mt-3">
-          <small>&copy; {new Date().getFullYear()} Matrimonial.com.bd. All rights reserved.</small>
+
+        <hr />
+
+        <div className="text-center">
+          <p className="mb-0">&copy; {new Date().getFullYear()} Matrimonial.com. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

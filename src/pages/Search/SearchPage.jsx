@@ -1,74 +1,55 @@
-import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext.jsx";
+import React from "react";
+import { useLocation } from "react-router-dom";
+
+const dummyProfiles = [
+  { id: 1, name: "Ayesha", gender: "female", age: 24, religion: "Islam" },
+  { id: 2, name: "Rahim", gender: "male", age: 28, religion: "Islam" },
+  { id: 3, name: "Priya", gender: "female", age: 26, religion: "Hindu" },
+  { id: 4, name: "John", gender: "male", age: 32, religion: "Christian" },
+];
 
 const SearchPage = () => {
-  const { user, isAuthenticated } = useAuth();
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
 
-  // Dummy search function (replace with API call later)
-  const handleSearch = () => {
-    if (!query) return;
-    // For demo, just return dummy users
-    const dummyResults = [
-      { id: 1, name: "John Doe", age: 28, city: "Dhaka" },
-      { id: 2, name: "Jane Smith", age: 25, city: "Chittagong" }
-    ].filter((user) =>
-      user.name.toLowerCase().includes(query.toLowerCase())
+  const gender = params.get("gender");
+  const ageRange = params.get("age");
+  const religion = params.get("religion");
+
+  const filtered = dummyProfiles.filter((p) => {
+    const ageMatch =
+      !ageRange ||
+      (p.age >= parseInt(ageRange.split("-")[0]) &&
+        p.age <= parseInt(ageRange.split("-")[1] || 100));
+
+    return (
+      (!gender || p.gender === gender) &&
+      ageMatch &&
+      (!religion || p.religion === religion)
     );
-
-    setResults(dummyResults);
-  };
+  });
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Search Profiles</h1>
+    <div className="container py-5">
+      <h2 className="fw-bold mb-4">Search Results</h2>
 
-      {isAuthenticated ? (
-        <>
-          <input
-            type="text"
-            placeholder="Search by name..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{
-              padding: "0.5rem",
-              width: "250px",
-              marginRight: "1rem",
-              borderRadius: "5px",
-              border: "1px solid #ccc"
-            }}
-          />
-          <button
-            onClick={handleSearch}
-            style={{
-              padding: "0.5rem 1rem",
-              backgroundColor: "#1890ff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer"
-            }}
-          >
-            Search
-          </button>
-
-          <div style={{ marginTop: "2rem" }}>
-            {results.length > 0 ? (
-              <ul>
-                {results.map((profile) => (
-                  <li key={profile.id} style={{ marginBottom: "1rem" }}>
-                    <strong>{profile.name}</strong>, {profile.age} years, {profile.city}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No results found.</p>
-            )}
-          </div>
-        </>
+      {filtered.length === 0 ? (
+        <p className="text-danger">No profiles found!</p>
       ) : (
-        <p>Please login to search profiles.</p>
+        <div className="row">
+          {filtered.map((p) => (
+            <div className="col-md-4 mb-4" key={p.id}>
+              <div className="card shadow">
+                <div className="card-body">
+                  <h4>{p.name}</h4>
+                  <p>Gender: {p.gender}</p>
+                  <p>Age: {p.age}</p>
+                  <p>Religion: {p.religion}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

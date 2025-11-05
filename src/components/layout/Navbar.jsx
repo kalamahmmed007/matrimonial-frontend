@@ -1,67 +1,59 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext.jsx";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import { Link } from "react-router-dom"; // Optional if using React Router
 
 const Navbar = () => {
-  const { user, isAuthenticated, logout } = useAuth();
-  const [expanded, setExpanded] = useState(false);
-
-  const handleToggle = () => setExpanded(!expanded);
-  const handleClose = () => setExpanded(false);
-
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container">
-        <Link className="navbar-brand fw-bold text-primary" to="/" onClick={handleClose}>
+        {/* Logo */}
+        <Link className="navbar-brand fw-bold text-danger" to="/">
           Matrimonial
         </Link>
 
+        {/* Hamburger button for mobile */}
         <button
           className="navbar-toggler"
           type="button"
-          onClick={handleToggle}
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
-          aria-expanded={expanded}
+          aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`} id="navbarNav">
+        {/* Menu items */}
+        <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/" onClick={handleClose}>Home</Link>
+              <Link className="nav-link fw-bold text-dark" to="/">
+                Home
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/profiles" onClick={handleClose}>Profiles</Link>
+              <Link className="nav-link fw-bold text-dark" to="/about">
+                About
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/search" onClick={handleClose}>Search</Link>
+              <Link className="nav-link fw-bold text-dark" to="/services">
+                Services
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/chat" onClick={handleClose}>Chat</Link>
+              <Link className="nav-link fw-bold text-dark" to="/contact">
+                Contact
+              </Link>
             </li>
-
-            {isAuthenticated ? (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard" onClick={handleClose}>Dashboard</Link>
-                </li>
-                <li className="nav-item">
-                  <button
-                    className="btn btn-link nav-link text-danger"
-                    onClick={() => { logout(); handleClose(); }}
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
-            ) : (
-              <li className="nav-item">
-                <Link className="nav-link" to="/login" onClick={handleClose}>Login</Link>
-              </li>
-            )}
+            <li className="nav-item">
+              <Link
+                className="btn btn-danger ms-lg-3 fw-bold"
+                to="/signup"
+              >
+                Sign Up
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
