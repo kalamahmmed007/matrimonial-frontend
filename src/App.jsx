@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 
 // Pages
 import Home from "./pages/Home/Home";
-import Profiles from "./pages/Profiles/Profiles";
+import Profiles from "./pages/Profiles/ProfilePage";
 import ProfileEdit from "./pages/ProfileEdit/ProfileEdit";
 import PartnerPreferencePage from "./pages/PartnerPreferencePage/PartnerPreferencePage";
 import SearchPage from "./pages/Search/SearchPage";
@@ -30,7 +30,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/profiles" element={<ProtectedRoute><Profiles /></ProtectedRoute>} />
-            <Route path="/profile/:id" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/profile/:id" element={<ProtectedRoute><Profiles /></ProtectedRoute>} />
             <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
             <Route path="/partner-preference" element={<ProtectedRoute><PartnerPreferencePage /></ProtectedRoute>} />
             <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />

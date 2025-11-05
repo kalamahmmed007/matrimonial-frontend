@@ -1,6 +1,6 @@
-// src/components/profile/ProfileDetails.jsx
 import React from "react";
 import { CheckCircle, Star, MapPin, Mail, Phone } from "lucide-react";
+
 
 export default function ProfileDetails({ profile }) {
   if (!profile) {
