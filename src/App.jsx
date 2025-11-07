@@ -11,6 +11,7 @@ import SearchPage from "./pages/Search/SearchPage.jsx";
 import ChatPage from "./pages/Chat/ChatPage.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import AdminPanel from "./pages/Admin/AdminPanel.jsx";
+import Register from "./pages/Register/Register.jsx";
 
 // Layout
 import Layout from "./components/layout/Layout.jsx";
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="/profile/edit" element={<ProfileEdit />} />
             <Route path="/partner-preference" element={<PartnerPreferencePage />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<AdminPanel />} />
